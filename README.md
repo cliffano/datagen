@@ -22,14 +22,14 @@ Generate data files containing 1 million segments, over 8 processes, written to 
 Templates
 ---------
 
-DataGen uses three template files: header, segment, and footer. These templates are simple text files which will be constructed by each worker into a data file in this format:
+DataGen uses three template files: header, segment, and footer. These templates are simple text files which will used to construct a data file in this format:
 
-header
-segment 0
-segment 1
-...
-segment num_segments - 1
-footer
+    header
+    segment 0
+    segment 1
+    ...
+    segment num_segments - 1
+    footer
 
 Templates can contain the following parameters:
 
