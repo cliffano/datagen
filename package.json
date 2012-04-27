@@ -1,0 +1,46 @@
+{
+  "name": "datagen",
+  "description": "Multi-process data file generator",
+  "keywords": [
+    "multi",
+    "process",
+    "file",
+    "generator"
+  ],
+  "version": "0.0.1",
+  "homepage": "http://github.com/cliffano/datagen",
+  "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
+  "bin": {
+    "datagen": "./bin/datagen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/cliffano/datagen.git"
+  },
+  "bugs": {
+    "url": "http://github.com/cliffano/datagen/issues"
+  },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "dependencies": {
+  	"cly": "0.0.4",
+    "underscore": "1.3.3"
+  },
+  "devDependencies": {
+    "sandboxed-module": "0.1.3",
+    "vows": "0.6.1"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/cliffano/datagen/raw/master/LICENSE"
+    }
+  ]
+}
+ 
