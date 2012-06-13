@@ -7,7 +7,7 @@
     "file",
     "generator"
   ],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "http://github.com/cliffano/datagen",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "bin": {
@@ -26,7 +26,7 @@
     "test": "./test"
   },
   "dependencies": {
-  	"cly": "0.0.4",
+    "cly": "0.0.4",
     "underscore": "1.3.3"
   },
   "devDependencies": {
@@ -43,4 +43,3 @@
     }
   ]
 }
- 
