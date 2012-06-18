@@ -5,7 +5,8 @@
     "multi",
     "process",
     "file",
-    "generator"
+    "generator",
+    "command-line"
   ],
   "version": "0.0.2",
   "homepage": "http://github.com/cliffano/datagen",
