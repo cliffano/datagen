@@ -1,6 +1,6 @@
 {
   "name": "datagen",
-  "description": "Multi-process data file generator",
+  "description": "Multi-process test data files generator",
   "keywords": [
     "multi",
     "process",
