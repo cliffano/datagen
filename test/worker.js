@@ -117,7 +117,7 @@ describe('worker', function () {
           console: bag.mock.console(checks, mocks),
           process: bag.mock.process(checks, mocks)
         }
-      })
+      });
     });
 
     it('should create a worker and call write', function () {
