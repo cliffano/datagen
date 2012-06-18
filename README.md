@@ -1,5 +1,5 @@
 DataGen [![http://travis-ci.org/cliffano/datagen](https://secure.travis-ci.org/cliffano/datagen.png?branch=master)](http://travis-ci.org/cliffano/datagen)
------------
+-------
 
 Multi-process data file generator.
 
@@ -36,7 +36,7 @@ DataGen uses three template files: header, segment, and footer. These templates 
 Templates can contain the following parameters:
 
 <table>
-<tr><td>gen_id</td><td>Unique to each datagen execution. Default value is master process PID, can be overridden via -i flag.</td></tr>
-<tr><td>worker_id</td><td>Unique to each worker. Value from 0 to number of workers - 1.</td></tr>
-<tr><td>segment_id</td><td>Unique to each segment within the generated data file, repeated in each file. Value from 0 to number of segments - 1. Not available in header and footer templates.</td></tr>
+<tr><td>{gen_id}</td><td>Unique to each datagen execution. Default value is master process PID, can be overridden via -i flag.</td></tr>
+<tr><td>{worker_id}</td><td>Unique to each worker. Value from 0 to number of workers - 1.</td></tr>
+<tr><td>{segment_id}</td><td>Unique to each segment within the generated data file, repeated in each file. Value from 0 to number of segments - 1. Not available in header and footer templates.</td></tr>
 </table>
