@@ -3,7 +3,7 @@ DataGen [![http://travis-ci.org/cliffano/datagen](https://secure.travis-ci.org/c
 
 Multi-process data file generator.
 
-This is handy when you want to generate large test data file (e.g. XMLs, JSONs), over multiple processes, utilising the available CPU cores on your machine.
+This is handy when you want to generate large test data files (e.g. XMLs, JSONs, CSVs), over multiple processes, utilising available CPU cores on your machine.
 
 Installation
 ------------
