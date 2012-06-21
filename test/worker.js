@@ -112,7 +112,7 @@ describe('worker', function () {
       _write('{date(1998, 2000)}');
       for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
         checks.strings[i].should.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/);
-        parseInt(checks.strings[i].match(/^[0-9]{4}/)).should.be.within(1998, 1999);
+        parseInt(checks.strings[i].match(/^[0-9]{4}/), 10).should.be.within(1998, 1999);
       }
     });
 
@@ -120,7 +120,7 @@ describe('worker', function () {
       _write('{date(\'yyyy/mm/dd\', 1998, 2000)}');
       for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
         checks.strings[i].should.match(/[0-9]{4}\/[0-9]{2}\/[0-9]{2}/);
-        parseInt(checks.strings[i].match(/^[0-9]{4}/)).should.be.within(1998, 1999);
+        parseInt(checks.strings[i].match(/^[0-9]{4}/), 10).should.be.within(1998, 1999);
       }
     });
 
