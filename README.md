@@ -47,7 +47,7 @@ Templates can contain the following parameters:
 <tr><td>{date('yyyy-mm-dd')</td><td>Random date between 1970 and 2020 in yyyy-mm-dd format.<br/>Check out <a href="http://github.com/felixge/node-dateformat">felixge/node-dateformat</a> for more date formats.</td></tr>
 <tr><td>{date(2000, 2010)}</td><td>Random date between 2000 and 2010 in ISO format.</td></tr>
 <tr><td>{date('yyyy-mm-dd', 2000, 2010)}</td><td>Random date between 2000 and 2010 in yyyy-mm-dd format.</td></tr>
-<tr><td>{select('apple', 'orange', ..., 'kiwi')}</td><td>Select one word from the arguments.</td></tr>
+<tr><td>{select('apple', 'orange', ..., 'kiwi')}</td><td>Select one item from the arguments. You can have as many arguments as you want.</td></tr>
 <tr><td>{word()}</td><td>Random word from Lorem Ipsum.</td></tr>
 <tr><td>{word(3)}</td><td>Random 3 words from Lorem Ipsum.</td></tr>
 <tr><td>{first_name()}</td><td>Random first name.</td></tr>
