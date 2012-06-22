@@ -27,7 +27,7 @@
     "test": "./test"
   },
   "dependencies": {
-    "bagofholding": "0.0.8",
+    "bagofholding": "0.0.9",
     "dateformat": "1.0.2-1.2.3",
     "ncp": "0.2.6",
     "Nonsense": "0.1.2",
