@@ -17,7 +17,7 @@ Create example header, segment, and footer template files:
 
     datagen config
 
-Generate 8 data files containing 1 million segments in each file, written to data0 ... data7 output files, running over 8 processes:
+Generate 8 data files containing 1 million segments in each file, written to data1 ... data8 output files, running over 8 processes, each process is used to generate 1 file:
 
     datagen gen -s 1000000 -w 8 -o data
 
