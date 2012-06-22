@@ -29,6 +29,8 @@ describe('worker', function () {
   describe('_templateFunctions', function () {
 
     function _write(template) {
+      mocks.stream_write_status = true;
+      mocks.stream_on_open = [];
       worker = new (create(checks, mocks))(333);
       worker.write({
         header: template,
@@ -218,6 +220,8 @@ describe('worker', function () {
     });
 
     it('should write header, segments, and footer to the stream when write is called', function () {
+      mocks.stream_write_status = true;
+      mocks.stream_on_open = [];
       worker = new (create(checks, mocks))(3);
       worker.write({
         header: 'header template',
@@ -235,6 +239,8 @@ describe('worker', function () {
     });
 
     it('should apply params to template when write is called', function () {
+      mocks.stream_write_status = true;
+      mocks.stream_on_open = [];
       worker = new (create(checks, mocks))(333);
       worker.write({
         header: 'header template {worker_id}',
@@ -252,6 +258,8 @@ describe('worker', function () {
     });
 
     it('should evaluate function in template when it contains functions', function () {
+      mocks.stream_write_status = true;
+      mocks.stream_on_open = [];
       worker = new (create(checks, mocks))(333);
       worker.write({
         header: '{first_name()} {last_name()}',
@@ -267,11 +275,14 @@ describe('worker', function () {
       });
       (_.isEmpty(checks.stream_end_string)).should.equal(false);
     });
+
   });
 
   describe('onmessage', function () {
 
     beforeEach(function () {
+      mocks.stream_write_status = true;
+      mocks.stream_on_open = [];
       mocks.stream_on_close = [];
       mocks.process_on_message = [{
         workerId: '888',

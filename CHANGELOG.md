@@ -1,5 +1,5 @@
 ### 0.0.3 (SNAPSHOT)
-*
+* Worker write no longer streams non-stop, better handling of fs backpressure
 
 ### 0.0.2
 * Rename run command to gen
