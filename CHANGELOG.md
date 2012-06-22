@@ -1,4 +1,7 @@
-### 0.0.2 (SNAPSHOT)
+### 0.0.3 (SNAPSHOT)
+*
+
+### 0.0.2
 * Rename run command to gen
 * Replace -r run ID with -i gen ID
 * Change default out file name from 'out' to 'data'

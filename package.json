@@ -8,7 +8,7 @@
     "generator",
     "command-line"
   ],
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "http://github.com/cliffano/datagen",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "bin": {
