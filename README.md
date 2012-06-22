@@ -27,18 +27,18 @@ Templates
 DataGen uses three template files: header, segment, and footer. These templates are simple text files which are used to construct a data file in this format:
 
     header
-    segment 0
     segment 1
+    segment 2
     ...
-    segment N (number of segments - 1)
+    segment N (number of segments)
     footer
 
 Templates can contain the following parameters:
 
 <table>
 <tr><td>{gen_id}</td><td>Unique to each datagen execution. Default value is master process PID, can be overridden via -i flag.</td></tr>
-<tr><td>{worker_id}</td><td>Unique to each worker. Value from 0 to number of workers - 1.</td></tr>
-<tr><td>{segment_id}</td><td>Unique to each segment within the generated data file, repeated in each file. Value from 0 to number of segments - 1. Not available in header and footer templates.</td></tr>
+<tr><td>{worker_id}</td><td>Unique to each worker. Value from 1 to number of workers.</td></tr>
+<tr><td>{segment_id}</td><td>Unique to each segment within the generated data file, repeated in each file. Value from 1 to number of segments. Not available in header and footer templates.</td></tr>
 <tr><td>{integer()}</td><td>Random integer.</td></tr>
 <tr><td>{integer(100, 200)}</td><td>Random integer between 100 and 200.</td></tr>
 <tr><td>{float()}</td><td>random float.</td></tr>

@@ -1,5 +1,6 @@
 ### 0.0.3 (SNAPSHOT)
 * Worker write no longer streams non-stop, better handling of fs backpressure
+* Worker ID and segment ID starts from 1 instead of 0
 
 ### 0.0.2
 * Rename run command to gen

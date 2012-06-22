@@ -68,7 +68,7 @@ describe('datagen', function () {
       // only 1 worker by default
       checks.child_process_fork_sends.length.should.equal(1);
 
-      checks.child_process_fork_sends[0].workerId.should.equal(0);
+      checks.child_process_fork_sends[0].workerId.should.equal(1);
       checks.child_process_fork_sends[0].genId.should.equal('56789');
       checks.child_process_fork_sends[0].numSegments.should.equal(1);
       checks.child_process_fork_sends[0].outFile.should.equal('data');
@@ -81,7 +81,7 @@ describe('datagen', function () {
       // one message for each worker
       checks.child_process_fork_sends.length.should.equal(8);
 
-      checks.child_process_fork_sends[0].workerId.should.equal(0);
+      checks.child_process_fork_sends[0].workerId.should.equal(1);
       checks.child_process_fork_sends[0].genId.should.equal('12345');
       checks.child_process_fork_sends[0].numSegments.should.equal(10000);
       checks.child_process_fork_sends[0].outFile.should.equal('somedatafile');
