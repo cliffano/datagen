@@ -1,4 +1,7 @@
-### 0.0.3 (SNAPSHOT)
+### 0.0.4 (SNAPSHOT)
+*
+
+### 0.0.3
 * Worker write no longer streams non-stop, better handling of fs backpressure
 * Worker ID and segment ID starts from 1 instead of 0
 
