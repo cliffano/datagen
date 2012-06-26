@@ -1,5 +1,5 @@
 ### 0.0.4 (SNAPSHOT)
-*
+* Set max node engine to < 0.9.0
 
 ### 0.0.3
 * Worker write no longer streams non-stop, better handling of fs backpressure
