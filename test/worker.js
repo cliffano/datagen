@@ -262,7 +262,7 @@ describe('worker', function () {
       mocks.stream_on_open = [];
       worker = new (create(checks, mocks))(333);
       worker.write({
-        header: '{first_name()} {last_name()}',
+        header: '{first_name()} {last_name()}{email()}{phone()}{phone(\'#######\')}',
         segment: '{integer()}{integer(10, 20)}{float()}{float(10.0, 20.0)}{date()}{date(\'yyyy-mm-dd\')}{select()}{select(\'foo\', \'bar\')}',
         footer: '{word()} {word(10)}'
       }, '12345', 2, 'somedatafile', function () {
