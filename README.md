@@ -44,7 +44,7 @@ Templates can contain the following parameters:
 <tr><td>{float()}</td><td>random float.</td></tr>
 <tr><td>{float(1.23, 5.67)}</td><td>Random float between 1.23 and 5.67 .</td></tr>
 <tr><td>{date()}</td><td>random date between 1970 and 2020 in ISO format.</td></tr>
-<tr><td>{date('yyyy-mm-dd')</td><td>Random date between 1970 and 2020 in yyyy-mm-dd format.<br/>Check out <a href="http://github.com/felixge/node-dateformat">felixge/node-dateformat</a> for more date formats.</td></tr>
+<tr><td>{date('yyyy-mm-dd')}</td><td>Random date between 1970 and 2020 in yyyy-mm-dd format.<br/>Check out <a href="http://github.com/felixge/node-dateformat">felixge/node-dateformat</a> for more date formats.</td></tr>
 <tr><td>{date(2000, 2010)}</td><td>Random date between 2000 and 2010 in ISO format.</td></tr>
 <tr><td>{date('yyyy-mm-dd', 2000, 2010)}</td><td>Random date between 2000 and 2010 in yyyy-mm-dd format.</td></tr>
 <tr><td>{select('apple', 'orange', ..., 'kiwi')}</td><td>Select one item from the arguments. You can have as many arguments as you want.</td></tr>
