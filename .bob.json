@@ -1,6 +1,7 @@
 {
   "test": {
-    "type": "mocha"
+    "type": "mocha",
+    "opts": "--ignore-leaks --reporter spec"
   },
   "coverage": {
     "type": "mocha"
