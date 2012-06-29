@@ -52,4 +52,7 @@ Templates can contain the following parameters:
 <tr><td>{word(3)}</td><td>Random 3 words from Lorem Ipsum.</td></tr>
 <tr><td>{first_name()}</td><td>Random first name.</td></tr>
 <tr><td>{last_name()}</td><td>Random last name.</td></tr>
+<tr><td>{email()}</td><td>Random email address.</td></tr>
+<tr><td>{phone()}</td><td>Random phone number. Default format #### ####.</td></tr>
+<tr><td>{phone('(###) ####-####')}</td><td>Random phone number with a custom format. Each '#' will be replaced by a random number.</td></tr>
 </table>
