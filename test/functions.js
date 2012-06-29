@@ -155,7 +155,7 @@ describe('functions', function () {
         done();
       });
       (_.isString(checks.data)).should.equal(true);
-      (checks.data.match(/[a-zA-Z]+/) !== null).should.equal(true);
+      checks.data.should.match(/[a-zA-Z]+/);
     });
 
     it('should evaluate multiple words when word function has an argument', function (done) {
@@ -165,7 +165,7 @@ describe('functions', function () {
       });
       function _check(word) {
         (_.isString(word)).should.equal(true);
-        (word.match(/[a-zA-Z]+/) !== null).should.equal(true);
+        word.should.match(/[a-zA-Z]+/);
       }
       var words = checks.data.split(' ');
       words.length.should.equal(5);
@@ -193,7 +193,40 @@ describe('functions', function () {
         done();
       });
       (_.isString(checks.data)).should.equal(true);
-      (checks.data.match(/[a-zA-Z]+/) !== null).should.equal(true);
+      checks.data.should.match(/[a-zA-Z]+/);
+    });
+  });
+
+  describe('email', function () {
+
+    it('should evaluate email function', function (done) {
+      functions.email(function (data) {
+        checks.data = data;
+        done();
+      });
+      (_.isString(checks.data)).should.equal(true);
+      checks.data.should.match(/[a-zA-Z]+/);
+    });
+  });
+
+  describe('phone', function () {
+
+    it('should evaluate phone function with default format when format is not specified', function (done) {
+      functions.phone(function (data) {
+        checks.data = data;
+        done();
+      });
+      (_.isString(checks.data)).should.equal(true);
+      checks.data.should.match(/[0-9]{4} [0-9]{4}/);
+    });
+
+    it('should evaluate phone function with custom format when format is specified', function (done) {
+      functions.phone('(###) ########', function (data) {
+        checks.data = data;
+        done();
+      });
+      (_.isString(checks.data)).should.equal(true);
+      checks.data.should.match(/\([0-9]{3}\) [0-9]{8}/);
     });
   });
 });
