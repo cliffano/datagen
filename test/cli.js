@@ -20,8 +20,8 @@ describe('cli', function () {
         },
         './datagen': function () {
           return {
-            config: function (exit) {
-              checks.datagen_config_exit = exit;
+            init: function (exit) {
+              checks.datagen_init_exit = exit;
             },
             generate: function (genId, numSegments, numWorkers, outFile, exit) {
               checks.datagen_generate_genId = genId;
@@ -46,10 +46,10 @@ describe('cli', function () {
 
   describe('exec', function () {
 
-    it('should contain config command and delegate to datagen config when exec is called', function () {
-      checks.bag_parse_commands.config.desc.should.equal('Create sample configuration file');
-      checks.bag_parse_commands.config.action();
-      checks.datagen_config_exit.should.be.a('function');
+    it('should contain init command and delegate to datagen init when exec is called', function () {
+      checks.bag_parse_commands.init.desc.should.equal('Create example template files');
+      checks.bag_parse_commands.init.action();
+      checks.datagen_init_exit.should.be.a('function');
     });
 
     it('should contain generate command and delegate to datagen generate when exec is called', function () {

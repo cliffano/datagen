@@ -25,9 +25,9 @@ describe('datagen', function () {
     mocks = {};
   });
 
-  describe('config', function () {
+  describe('init', function () {
 
-    it('should copy sample template files to current directory when config is called', function (done) {
+    it('should copy sample template files to current directory when init is called', function (done) {
       mocks.requires = {
         'ncp': {
           ncp: function (source, target, cb) {
@@ -38,13 +38,13 @@ describe('datagen', function () {
         }
       };
       datagen = new (create(checks, mocks))();
-      datagen.config(function () {
+      datagen.init(function () {
         done();
       }); 
       checks.ncp_ncp_source.should.equal('/somedir/datagen/examples');
       checks.ncp_ncp_target.should.equal('.');
       checks.console_log_messages.length.should.equal(1);
-      checks.console_log_messages[0].should.equal('Creating sample configuration files: header, segment, footer');
+      checks.console_log_messages[0].should.equal('Creating example template files: header, segment, footer');
     });
   });
 

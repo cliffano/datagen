@@ -1,5 +1,5 @@
 ### 0.0.6 (SNAPSHOT)
-*
+* Replace config command with init command
 
 ### 0.0.5
 * Add template functions: email and phone
