@@ -1,4 +1,7 @@
-### 0.0.6 (SNAPSHOT)
+### 0.0.7 (SNAPSHOT)
+*
+
+### 0.0.6
 * Replace config command with init command
 
 ### 0.0.5
