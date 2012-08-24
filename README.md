@@ -33,6 +33,40 @@ DataGen uses three template files: header, segment, and footer. These templates 
     segment N (number of segments)
     footer
 
+Example header:
+    
+    <?xml version="1.0" encoding="UTF-8"?>
+    <data>
+
+Example segment:
+
+    <segment>
+      <id>{gen_id}-{worker_id}-{segment_id}</id>
+      <name>{first_name()} {last_name()}</name>
+      <dob>{date('dd-mm-yyyy')}</dob>
+    </segment>
+
+Example footer:
+	
+    </data>
+
+The above templates will generate an XML like this:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <data>
+    <segment>
+      <id>1-1-1</id>
+      <name>Niels Bryant</name>
+      <dob>12-08-1992</dob>
+    </segment>
+    <segment>
+      <id>1-1-2</id>
+      <name>John Bohr</name>
+      <dob>01-11-1970</dob>
+    </segment>
+    ...
+    </data>
+
 Templates can contain the following parameters:
 
 <table>
