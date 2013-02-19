@@ -1,11 +1,12 @@
 {
+  "build": "clean lint complexity test coverage",
   "test": {
-    "type": "mocha",
-    "opts": "--ignore-leaks --reporter spec"
+    "type": "buster"
+  },
+  "test-integration": {
+    "type": "buster"
   },
   "coverage": {
-    "type": "mocha",
-    "opts": "--ignore-leaks --reporter html-cov"
+    "type": "buster-istanbul"
   }
 }
-
