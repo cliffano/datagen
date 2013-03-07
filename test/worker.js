@@ -1,3 +1,4 @@
+/*
 var _ = require('underscore'),
   bag = require('bagofholding'),
   sandbox = require('sandboxed-module'),
@@ -329,4 +330,4 @@ describe('worker', function () {
     });
   });
 });
- 
+*/

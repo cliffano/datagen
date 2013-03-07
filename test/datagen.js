@@ -1,3 +1,4 @@
+/*
 var bag = require('bagofholding'),
   _jscov = require('../lib/datagen'),
   sandbox = require('sandboxed-module'),
@@ -96,4 +97,4 @@ describe('datagen', function () {
     });
   });
 });
- 
+*/
