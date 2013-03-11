@@ -1,88 +1,78 @@
-/*
 var bag = require('bagofholding'),
-  sandbox = require('sandboxed-module'),
-  should = require('should'),
-  checks, mocks,
-  cli;
+  buster = require('buster'),
+  cli = require('../lib/cli'),
+  DataGen = new require('../lib/datagen');
 
-describe('cli', function () {
-
-  function create(checks, mocks) {
-    return sandbox.require('../lib/cli', {
-      requires: {
-        bagofholding: {
-          cli: {
-            exit: bag.cli.exit,
-            parse: function (commands, dir) {
-              checks.bag_parse_commands = commands;
-              checks.bag_parse_dir = dir;
-            }
-          }
-        },
-        './datagen': function () {
-          return {
-            init: function (exit) {
-              checks.datagen_init_exit = exit;
-            },
-            generate: function (genId, numSegments, numWorkers, outFile, exit) {
-              checks.datagen_generate_genId = genId;
-              checks.datagen_generate_numSegments = numSegments;
-              checks.datagen_generate_numWorkers = numWorkers;
-              checks.datagen_generate_outFile = outFile;
-              checks.datagen_generate_exit = exit;
-            }
-          };
-        }
-      },
-      globals: {}
-    });
-  }
-
-  beforeEach(function () {
-    checks = {};
-    mocks = {};
-    cli = create(checks, mocks);
+buster.testCase('cli - exec', {
+  'should contain commands with actions': function (done) {
+    var mockCommand = function (base, actions) {
+      assert.defined(base);
+      assert.defined(actions.commands.init.action);
+      assert.defined(actions.commands.gen.action);
+      done();
+    };
+    this.stub(bag, 'cli', { command: mockCommand });
     cli.exec();
-  });
-
-  describe('exec', function () {
-
-    it('should contain init command and delegate to datagen init when exec is called', function () {
-      checks.bag_parse_commands.init.desc.should.equal('Create example template files');
-      checks.bag_parse_commands.init.action();
-      checks.datagen_init_exit.should.be.a('function');
-    });
-
-    it('should contain generate command and delegate to datagen generate when exec is called', function () {
-
-      checks.bag_parse_commands.gen.desc.should.equal('Generate data file');
-      checks.bag_parse_commands.gen.options.length.should.equal(4);
-      checks.bag_parse_commands.gen.action({
-        genId: '12345',
-        numSegments: 10000,
-        numWorkers: 8,
-        outFile: 'somedatafile'
-      });
-      checks.datagen_generate_genId.should.equal('12345');
-      checks.datagen_generate_numSegments.should.equal(10000);
-      checks.datagen_generate_numWorkers.should.equal(8);
-      checks.datagen_generate_outFile.should.equal('somedatafile');
-      checks.datagen_generate_exit.should.be.a('function');
-
-      checks.bag_parse_commands.gen.options[0].arg.should.equal('-i, --gen-id <genId>');
-      checks.bag_parse_commands.gen.options[0].desc.should.equal('An ID unique to the current data generation, used by all worker processes  | defaut: datagen process PID');
-      should.not.exist(checks.bag_parse_commands.gen.options[0].action);
-      checks.bag_parse_commands.gen.options[1].arg.should.equal('-s, --num-segments <numSegments>');
-      checks.bag_parse_commands.gen.options[1].desc.should.equal('How many segments in a data file | default: 1');
-      (typeof checks.bag_parse_commands.gen.options[1].action).should.equal('function');
-      checks.bag_parse_commands.gen.options[2].arg.should.equal('-w, --num-workers <numWorkers>');
-      checks.bag_parse_commands.gen.options[2].desc.should.equal('How many worker processes, each worker creates a data file | default: 1');
-      (typeof checks.bag_parse_commands.gen.options[2].action).should.equal('function');
-      checks.bag_parse_commands.gen.options[3].arg.should.equal('-o, --out-file <outFile>');
-      checks.bag_parse_commands.gen.options[3].desc.should.equal('Generated data file name, postfixed with worker ID | default: \'data\'');
-      should.not.exist(checks.bag_parse_commands.gen.options[3].action);
-      
-    });
-  });
+  }
 });
-*/
+
+buster.testCase('cli - init', {
+  setUp: function () {
+    this.mockConsole = this.mock(console);
+    this.mockProcess = this.mock(process);
+    this.stub(bag, 'cli', {
+      command: function (base, actions) {
+        actions.commands.init.action();
+      },
+      exit: bag.cli.exit
+    });
+  },
+  'should log template files creation and call DataGen init': function () {
+    this.mockConsole.expects('log').once().withExactArgs('Creating example template files: header, segment, footer');
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(DataGen.prototype, 'init', function (cb) {
+      cb(null, []);
+    });
+    cli.exec();
+  }
+});
+
+buster.testCase('cli - gen', {
+  setUp: function () {
+    this.mockProcess = this.mock(process);
+  },
+  'should call DataGen generate': function () {
+    this.stub(bag, 'cli', {
+      command: function (base, actions) {
+        actions.commands.gen.action({ genId: 3, numSegments: 500, numWorkers: 8, outFile: 'someoutfile' });
+      },
+      exit: bag.cli.exit
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(DataGen.prototype, 'generate', function (opts, cb) {
+      assert.equals(opts.genId, 3);
+      assert.equals(opts.numSegments, 500);
+      assert.equals(opts.numWorkers, 8);
+      assert.equals(opts.outFile, 'someoutfile');
+      cb(null, []);
+    });
+    cli.exec();
+  },
+  'should handle no argument': function () {
+    this.stub(bag, 'cli', {
+      command: function (base, actions) {
+        actions.commands.gen.action({});
+      },
+      exit: bag.cli.exit
+    });
+    this.mockProcess.expects('exit').once().withExactArgs(0);
+    this.stub(DataGen.prototype, 'generate', function (opts, cb) {
+      assert.equals(opts.genId, undefined);
+      assert.equals(opts.numSegments, undefined);
+      assert.equals(opts.numWorkers, undefined);
+      assert.equals(opts.outFile, undefined);
+      cb(null, []);
+    });
+    cli.exec();
+  }
+});
