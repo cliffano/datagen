@@ -1,5 +1,6 @@
 ### 0.0.7 (SNAPSHOT)
 * Header and footer template files are now optional
+* Require min node engine support 0.8.0
 
 ### 0.0.6
 * Replace config command with init command
