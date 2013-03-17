@@ -1,4 +1,4 @@
-DataGen [![http://travis-ci.org/cliffano/datagen](https://secure.travis-ci.org/cliffano/datagen.png?branch=master)](http://travis-ci.org/cliffano/datagen)
+DataGen [![Build Status](https://secure.travis-ci.org/cliffano/datagen.png?branch=master)](http://travis-ci.org/cliffano/datagen) [![Dependencies Status](https://david-dm.org/cliffano/datagen.png)](http://david-dm.org/cliffano/datagen)
 -------
 
 DataGen is a multi-process test data files generator.
