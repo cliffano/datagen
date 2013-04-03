@@ -67,6 +67,10 @@ The above templates will generate an XML like this:
     ...
     </data>
 
+Curly brackets in templates (e.g. JSON format) need to be escaped with double brackets:
+
+    {{ "id": "{gen_id}-{worker_id}-{segment_id}", "name": "{first_name()} {last_name()}", "dob": "{date('dd-mm-yyyy')}" }}
+
 Templates can contain the following parameters:
 
 <table>
