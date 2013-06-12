@@ -1,4 +1,4 @@
-var bag = require('bagofholding'),
+var bag = require('bagofcli'),
   buster = require('buster'),
   cli = require('../lib/cli'),
   DataGen = new require('../lib/datagen');
@@ -11,7 +11,7 @@ buster.testCase('cli - exec', {
       assert.defined(actions.commands.gen.action);
       done();
     };
-    this.stub(bag, 'cli', { command: mockCommand });
+    this.stub(bag, 'command', mockCommand);
     cli.exec();
   }
 });
@@ -20,11 +20,8 @@ buster.testCase('cli - init', {
   setUp: function () {
     this.mockConsole = this.mock(console);
     this.mockProcess = this.mock(process);
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.init.action();
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.init.action();
     });
   },
   'should log template files creation and call DataGen init': function () {
@@ -42,11 +39,8 @@ buster.testCase('cli - gen', {
     this.mockProcess = this.mock(process);
   },
   'should call DataGen generate': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.gen.action({ genId: 3, numSegments: 500, numWorkers: 8, outFile: 'someoutfile' });
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.gen.action({ genId: 3, numSegments: 500, numWorkers: 8, outFile: 'someoutfile' });
     });
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(DataGen.prototype, 'generate', function (opts, cb) {
@@ -59,11 +53,8 @@ buster.testCase('cli - gen', {
     cli.exec();
   },
   'should handle no argument': function () {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.gen.action({});
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.gen.action({});
     });
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(DataGen.prototype, 'generate', function (opts, cb) {

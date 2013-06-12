@@ -31,9 +31,10 @@
     "test": "./test"
   },
   "dependencies": {
-    "bagofholding": "0.1.2",
+    "bagofcli": "0.0.1",
     "dateformat": "1.0.6-1.2.3",
     "Faker": "0.5.7",
+    "jazz": "0.0.18",
     "ncp": "0.4.2",
     "Nonsense": "0.1.2",
     "underscore": "1.4.4"
