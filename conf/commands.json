@@ -1,10 +1,10 @@
 {
   "commands": {
     "init": {
-      "desc": "Create sample template files\nUsage: datagen init"
+      "desc": "Create sample template files"
     },
     "gen": {
-      "desc": "Generate data file\nUsage: datagen [-i/--gen-id <genId>] [-s/--num-segments <numSegments>] [-w/--num-workers <numWorkers>] [-o/--out-file <outFile>] gen",
+      "desc": "Generate data file",
       "options": [
         { "arg": "-i, --gen-id <genId>", "desc": "An ID unique to the current data generation, used by all worker processes  | defaut: datagen process PID" },
         { "arg": "-s, --num-segments <numSegments>", "desc": "How many segments in a data file | default: 1" },
