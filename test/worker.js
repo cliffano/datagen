@@ -1,191 +1,24 @@
 /*
-var _ = require('underscore'),
-  bag = require('bagofholding'),
-  sandbox = require('sandboxed-module'),
-  should = require('should'),
-  checks, mocks,
-  worker;
+var buster = require('buster'),
+  Worker = require('../lib/worker');
 
-describe('worker', function () {
-
-  function create(checks, mocks) {
-    return sandbox.require('../lib/worker', {
-      requires: {
-        fs: bag.mock.fs(checks, mocks)
-      },
-      globals: {
-        console: bag.mock.console(checks, mocks),
-        process: bag.mock.process(checks, mocks)
-      }
+buster.testCase('worker - process', {
+  setUp: function () {
+    this.mockConsole = this.mock(console);
+    this.mockProcess = this.mock(process);
+  },
+  'should log start and finish messages, and exit with exit code 1': function () {
+    this.mockConsole.expects('log').once().withExactArgs('Starting worker someid');
+    this.mockConsole.expects('log').once().withExactArgs('Finishing worker someid');
+    this.mockProcess.expects('exit').once().withExactArgs(1);
+    this.stub(Worker.prototype, 'write', function (templates, genId, numSegments, outFile, cb) {
+      cb();
     });
+    this.stub()
   }
-
-  beforeEach(function () {
-    checks = {};
-    mocks = {};
-
-    mocks.fs_createWriteStream = bag.mock.stream(checks, mocks);
-  });
-
-  describe('_templateFunctions', function () {
-
-    function _write(template) {
-      mocks.stream_write_status = true;
-      mocks.stream_on_open = [];
-      worker = new (create(checks, mocks))(333);
-      worker.write({
-        header: template,
-        segment: template,
-        footer: template
-      }, '12345', 100, 'somedatafile', function () {
-        checks.worker_write__count++;
-      });
-
-      checks.strings = checks.stream_write_strings.concat(checks.stream_end_string);
-      checks.strings.length.should.be.above(0);
-    }
-
-    it('should evaluate integer function when it has no argument', function () {
-      _write('{integer()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isNaN(checks.strings[i])).should.equal(false);
-        checks.strings[i].should.not.match(/.+\..+/);
-      }
-    });
-
-    it('should evaluate ranged integer function when it has min max arguments', function () {
-      _write('{integer(100, 200)}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isNaN(checks.strings[i])).should.equal(false);
-        checks.strings[i].should.not.match(/.+\..+/);
-        parseInt(checks.strings[i], 10).should.be.within(100, 200);
-      }
-    });
-
-    it('should evaluate identical integer function when it has identical min max arguments', function () {
-      _write('{integer(100, 100)}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isNaN(checks.strings[i])).should.equal(false);
-        checks.strings[i].should.not.match(/.+\..+/);
-        parseInt(checks.strings[i], 10).should.equal(100);
-      }
-    });
-
-    it('should evaluate float function when it has no argument', function () {
-      _write('{float()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isNaN(checks.strings[i])).should.equal(false);
-        checks.strings[i].should.match(/.+\..+/);
-      }
-    });
-
-    it('should evaluate ranged float function when it has min max arguments', function () {
-      _write('{float(100.0, 200.0)}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isNaN(checks.strings[i])).should.equal(false);
-        checks.strings[i].should.match(/.+\..+/);
-        parseFloat(checks.strings[i], 10).should.be.within(100.0, 200.0);
-      }
-    });
-
-    it('should evaluate identical float function when it has identical min max arguments', function () {
-      _write('{float(567.89, 567.89)}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        checks.strings[i].should.match(/.+\..+/);
-        (checks.strings[i].match(/.+\..+/) !== null).should.equal(true);
-        parseFloat(checks.strings[i]).should.equal(567.89);
-      }
-    });
-
-    it('should evaluate date function with ISO format when it has no argument', function () {
-      _write('{date()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        checks.strings[i].should.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/);
-      }
-    });
-
-    it('should evaluate date function with custom format when it has format argument', function () {
-      _write('{date(\'yyyy/mm/dd\')}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        checks.strings[i].should.match(/[0-9]{4}\/[0-9]{2}\/[0-9]{2}/);
-      }
-    });
-
-    it('should evaluate date function with default format and ranged date when it has min max arguments and no format argument', function () {
-      _write('{date(1998, 2000)}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        checks.strings[i].should.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/);
-        parseInt(checks.strings[i].match(/^[0-9]{4}/), 10).should.be.within(1998, 1999);
-      }
-    });
-
-    it('should evaluate date function with custom format and ranged date when it has min max format arguments', function () {
-      _write('{date(\'yyyy/mm/dd\', 1998, 2000)}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        checks.strings[i].should.match(/[0-9]{4}\/[0-9]{2}\/[0-9]{2}/);
-        parseInt(checks.strings[i].match(/^[0-9]{4}/), 10).should.be.within(1998, 1999);
-      }
-    });
-
-    it('should evaluate select function when it has arguments', function () {
-      _write('{select(\'aaa\',\'bbb\',\'ccc\')}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        ['aaa','bbb','ccc'].indexOf(checks.strings[i]).should.be.within(0, 2);
-      }
-    });
-
-    it('should evaluate identical select function when it has only 1 argument', function () {
-      _write('{select(\'aaa\')}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        ['aaa'].indexOf(checks.strings[i]).should.equal(0);
-      }
-    });
-
-    it('should evaluate to empty when select function has no argument', function () {
-      _write('{select()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        ['aaa','bbb','ccc'].indexOf(checks.strings[i]).should.equal(-1);
-      }
-    });
-
-    it('should evaluate a single word when word function has no argument', function () {
-      _write('{word()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isString(checks.strings[i])).should.equal(true);
-        (checks.strings[i].match(/[a-zA-Z]+/) !== null).should.equal(true);
-      }
-    });
-
-    it('should evaluate multiple words when word function has an argument', function () {
-      _write('{word(5)}');
-      function _check(word) {
-        (_.isString(word)).should.equal(true);
-        (word.match(/[a-zA-Z]+/) !== null).should.equal(true);
-      }
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        var words = checks.strings[i].split(' ');
-        words.length.should.equal(5);
-        words.forEach(_check);
-      }
-    });
-
-    it('should evaluate first name function', function () {
-      _write('{first_name()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isString(checks.strings[i])).should.equal(true);
-        (checks.strings[i].match(/[a-zA-Z]+/) !== null).should.equal(true);
-      }
-    });
-
-    it('should evaluate last name function', function () {
-      _write('{last_name()}');
-      for (var i = 0, ln = checks.strings.length; i < ln; i += 1) {
-        (_.isString(checks.strings[i])).should.equal(true);
-        (checks.strings[i].match(/[a-zA-Z]+/) !== null).should.equal(true);
-      }
-    });
-  });
-
+});
+*/
+/*
   describe('write', function () {
 
     beforeEach(function () {
