@@ -1,5 +1,5 @@
 ### 0.0.8-pre
-*
+* Fix hang after writing first segment
 
 ### 0.0.7
 * Header and footer template files are now optional
