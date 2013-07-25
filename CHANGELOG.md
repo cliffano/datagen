@@ -1,4 +1,7 @@
-### 0.0.8-pre
+### 0.0.9-pre
+*
+
+### 0.0.8
 * Fix hang after writing first segment
 * Display help when no command is specified
 
