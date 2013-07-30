@@ -1,166 +1,112 @@
-/*
 var buster = require('buster'),
+  fs = require('fs'),
   Worker = require('../lib/worker');
 
-buster.testCase('worker - process', {
+buster.testCase('worker - write', {
   setUp: function () {
     this.mockConsole = this.mock(console);
-    this.mockProcess = this.mock(process);
+    this.mockFs = this.mock(fs);
   },
-  'should log start and finish messages, and exit with exit code 1': function () {
-    this.mockConsole.expects('log').once().withExactArgs('Starting worker someid');
-    this.mockConsole.expects('log').once().withExactArgs('Finishing worker someid');
-    this.mockProcess.expects('exit').once().withExactArgs(1);
-    this.stub(Worker.prototype, 'write', function (templates, genId, numSegments, outFile, cb) {
-      cb();
-    });
-    this.stub()
-  }
-});
-*/
-/*
-  describe('write', function () {
-
-    beforeEach(function () {
-      checks.worker_write__count = 0;
-    });
-
-    it('should log error message when an error event is emitted', function () {
-      mocks.stream_on_error = [ new Error('someerror') ];
-      worker = new (create(checks, mocks))(3);
-      worker.write({
+  'should log error message when an error event is emitted': function () {
+    var mockStream = {
+      on: function (event, cb) {
+        if (event === 'error') {
+          cb(new Error('some error'));
+        }
+      }
+    };
+    this.mockFs.expects('createWriteStream').withExactArgs('someoutfile123', { flags: 'w', encoding: 'utf-8' }).returns(mockStream);
+    this.mockConsole.expects('error').withExactArgs('Error: %s', 'some error');
+    worker = new Worker(123);
+    worker.write({
         header: 'header template',
         segment: 'segment template',
         footer: 'footer template'
-      }, '12345', 1, 'somedatafile', function () {
-        checks.worker_write__count++;
-      });
-      checks.worker_write__count.should.equal(0);
-      checks.console_error_messages.length.should.equal(1);
-      checks.console_error_messages[0].should.equal('Error: someerror');
-    });
-
-    it('should call callback when a close event is emitted', function () {
-      mocks.stream_on_close = [];
-      worker = new (create(checks, mocks))(3);
-      worker.write({
+      },
+      '12345', 1, 'someoutfile');
+  },
+  'should call callback when a close event is emitted': function (done) {
+    var mockStream = {
+      on: function (event, cb) {
+        if (event === 'close') {
+          cb();
+        }
+      }
+    };
+    this.mockFs.expects('createWriteStream').withExactArgs('someoutfile123', { flags: 'w', encoding: 'utf-8' }).returns(mockStream);
+    worker = new Worker(123);
+    worker.write({
         header: 'header template',
         segment: 'segment template',
         footer: 'footer template'
-      }, '12345', 1, 'somedatafile', function () {
-        checks.worker_write__count++;
-      });
-      checks.worker_write__count.should.equal(1);
-    });
+      },
+      '12345', 1, 'someoutfile',
+      done);
+  },
+  'should write header, segments, and footer to the stream when write is called': function (done) {
+    var writeData = [];
+    var mockStream = {
+      on: function (event, cb) {
+        if (event === 'open') {
+          cb();
+        }
+      },
+      write: function (data) {
+        writeData.push(data);
+        return true;
+      },
+      end: function (data) {
+        assert.equals(data, 'footer template');
+        
+        assert.equals(writeData, [
+          'header template',
+          'segment template',
+          'segment template'
+        ]);
 
-    it('should write header, segments, and footer to the stream when write is called', function () {
-      mocks.stream_write_status = true;
-      mocks.stream_on_open = [];
-      worker = new (create(checks, mocks))(3);
-      worker.write({
+        done();
+      }
+    };
+    this.mockFs.expects('createWriteStream').withExactArgs('someoutfile123', { flags: 'w', encoding: 'utf-8' }).returns(mockStream);
+    worker = new Worker(123);
+    worker.write({
         header: 'header template',
         segment: 'segment template',
         footer: 'footer template'
-      }, '12345', 2, 'somedatafile', function () {
-        checks.worker_write__count++;
-      });
-      checks.worker_write__count.should.equal(0);
-      checks.stream_write_strings.length.should.equal(3);
-      checks.stream_write_strings[0].should.equal('header template');
-      checks.stream_write_strings[1].should.equal('segment template');
-      checks.stream_write_strings[2].should.equal('segment template');
-      checks.stream_end_string.should.equal('footer template');
-    });
+      },
+      '12345', 2, 'someoutfile');
+  },
+  'should apply params to template when write is called': function (done) {
+    var writeData = [];
+    var mockStream = {
+      on: function (event, cb) {
+        if (event === 'drain') {
+          cb();
+        }
+      },
+      write: function (data) {
+        writeData.push(data);
+        return true;
+      },
+      end: function (data) {
+        assert.equals(data, 'footer template');
+        
+        assert.equals(writeData, [
+          'header template 123',
+          'segment template 1',
+          'segment template 2'
+        ]);
 
-    it('should apply params to template when write is called', function () {
-      mocks.stream_write_status = true;
-      mocks.stream_on_open = [];
-      worker = new (create(checks, mocks))(333);
-      worker.write({
+        done();
+      }
+    };
+    this.mockFs.expects('createWriteStream').withExactArgs('someoutfile123', { flags: 'w', encoding: 'utf-8' }).returns(mockStream);
+    worker = new Worker(123);
+    worker.write({
         header: 'header template {worker_id}',
         segment: 'segment template {segment_id}',
         footer: 'footer template'
-      }, '12345', 2, 'somedatafile', function () {
-        checks.worker_write__count++;
-      });
-      checks.worker_write__count.should.equal(0);
-      checks.stream_write_strings.length.should.equal(3);
-      checks.stream_write_strings[0].should.equal('header template 333');
-      checks.stream_write_strings[1].should.equal('segment template 1');
-      checks.stream_write_strings[2].should.equal('segment template 2');
-      checks.stream_end_string.should.equal('footer template');
-    });
-
-    it('should evaluate function in template when it contains functions', function () {
-      mocks.stream_write_status = true;
-      mocks.stream_on_open = [];
-      worker = new (create(checks, mocks))(333);
-      worker.write({
-        header: '{first_name()} {last_name()}{email()}{phone()}{phone(\'#######\')}',
-        segment: '{integer()}{integer(10, 20)}{float()}{float(10.0, 20.0)}{date()}{date(\'yyyy-mm-dd\')}{select()}{select(\'foo\', \'bar\')}',
-        footer: '{word()} {word(10)}'
-      }, '12345', 2, 'somedatafile', function () {
-        checks.worker_write__count++;
-      });
-      checks.worker_write__count.should.equal(0);
-      checks.stream_write_strings.length.should.equal(3);
-      checks.stream_write_strings.forEach(function (string) {
-        (_.isEmpty(string)).should.equal(false);
-      });
-      (_.isEmpty(checks.stream_end_string)).should.equal(false);
-    });
-
-  });
-
-  describe('onmessage', function () {
-
-    beforeEach(function () {
-      mocks.stream_write_status = true;
-      mocks.stream_on_open = [];
-      mocks.stream_on_close = [];
-      mocks.process_on_message = [{
-        workerId: '888',
-        templates: {
-          header: 'header template',
-          segment: 'segment template',
-          footer: 'footer template'
-        },
-        genId: '12345',
-        numSegments: 3,
-        outFile: 'somedatafile'
-      }];
-      sandbox.load('../lib/worker', {
-        requires: {
-          fs: bag.mock.fs(checks, mocks)
-        },
-        globals: {
-          console: bag.mock.console(checks, mocks),
-          process: bag.mock.process(checks, mocks)
-        }
-      });
-    });
-
-    it('should create a worker and call write', function () {
-      checks.fs_createWriteStream_path.should.equal('somedatafile888');
-      checks.fs_createWriteStream_opts.flags.should.equal('w');
-      checks.fs_createWriteStream_opts.encoding.should.equal('utf-8');
-    });
-
-    it('should log start and finish messages', function () {
-      checks.console_log_messages.length.should.equal(2);
-      checks.console_log_messages[0].should.equal('Starting worker 888');
-      checks.console_log_messages[1].should.equal('Finishing worker 888');
-    });
-
-    it('should write header, segments, and footer into stream', function () {
-      checks.stream_write_strings.length.should.equal(4);
-      checks.stream_write_strings[0].should.equal('header template');
-      checks.stream_write_strings[1].should.equal('segment template');
-      checks.stream_write_strings[2].should.equal('segment template');
-      checks.stream_write_strings[3].should.equal('segment template');
-      checks.stream_end__count.should.equal(1);
-      checks.stream_end_string.should.equal('footer template');
-    });
-  });
+      },
+      '12345', 2, 'someoutfile');
+  }
 });
-*/

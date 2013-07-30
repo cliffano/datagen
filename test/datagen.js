@@ -1,8 +1,8 @@
 var buster = require('buster'),
-  childProcess = require('child_process'),
   DataGen = require('../lib/datagen'),
   fs = require('fs'),
-  ncp = require('ncp');
+  ncp = require('ncp'),
+  workerFarm = require('worker-farm');
 
 buster.testCase('datagen - init', {
   'should delegate to ncp ncp when initialising the project': function (done) {
@@ -20,8 +20,8 @@ buster.testCase('datagen - init', {
 
 buster.testCase('datagen - generate', {
   setUp: function () {
-    this.mockChildProcess = this.mock(childProcess);
     this.mockFs = this.mock(fs);
+    this.stub(process, 'pid', 12345);
   },
   'should send default message properties when none is specified': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
@@ -30,24 +30,27 @@ buster.testCase('datagen - generate', {
     this.mockFs.expects('readFileSync').once().withExactArgs('header').returns('header template');
     this.mockFs.expects('readFileSync').once().withExactArgs('segment').returns('segment template');
     this.mockFs.expects('readFileSync').once().withExactArgs('footer').returns('footer template');
-    this.stub(process, 'pid', 12345);
 
-    var mockWorker = {
-      send: function (opts) {
-        assert.equals(opts.workerId, 1);
-        assert.equals(opts.templates.header, 'header template');
-        assert.equals(opts.templates.segment, 'segment template');
-        assert.equals(opts.templates.footer, 'footer template');
-        assert.equals(opts.genId, '12345');
-        assert.equals(opts.numSegments, 1);
-        assert.equals(opts.outFile, 'data');
-        done();
-      }
+    var mockWorker = function (message, cb) {
+      assert.equals(message.workerId, 1);
+      assert.equals(message.templates.header, 'header template');
+      assert.equals(message.templates.segment, 'segment template');
+      assert.equals(message.templates.footer, 'footer template');
+      assert.equals(message.genId, '12345');
+      assert.equals(message.numSegments, 1);
+      assert.equals(message.outFile, 'data');
+      cb();
     };
-    this.mockChildProcess.expects('fork').once().returns(mockWorker);
-
+    var mockWorkerFarm = function (opts, child) {
+      assert.equals(opts, {});
+      return mockWorker;
+    };
+    mockWorkerFarm.end = function (worker) {
+      assert.isTrue(worker !== undefined);
+      done();
+    };
     var datagen = new DataGen();
-    datagen.generate();
+    datagen.generate({ workerFarm: mockWorkerFarm });
   },
   'should send specified message properties when they are provided': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
@@ -56,44 +59,60 @@ buster.testCase('datagen - generate', {
     this.mockFs.expects('readFileSync').once().withExactArgs('header').returns('header template');
     this.mockFs.expects('readFileSync').once().withExactArgs('segment').returns('segment template');
     this.mockFs.expects('readFileSync').once().withExactArgs('footer').returns('footer template');
-    this.stub(process, 'pid', 12345);
 
-    var mockWorker = {
-      send: function (opts) {
-        assert.isTrue(opts.workerId === 1 || opts.workerId === 2);
-        assert.equals(opts.templates.header, 'header template');
-        assert.equals(opts.templates.segment, 'segment template');
-        assert.equals(opts.templates.footer, 'footer template');
-        assert.equals(opts.genId, 'somegenid');
-        assert.equals(opts.numSegments, 3);
-        assert.equals(opts.outFile, 'someoutfile');
-        if (opts.workerId === 2) {
-          done();
-        }
+    var mockWorker = function (message, cb) {
+      assert.isTrue(message.workerId <= 2);
+      assert.equals(message.templates.header, 'header template');
+      assert.equals(message.templates.segment, 'segment template');
+      assert.equals(message.templates.footer, 'footer template');
+      assert.equals(message.genId, 'somegenid');
+      assert.equals(message.numSegments, 3);
+      assert.equals(message.outFile, 'someoutfile');
+      cb();
+    };
+    var mockWorkerFarm = function (opts, child) {
+      assert.equals(opts.maxConcurrentWorkers, 123);
+      return mockWorker;
+    };
+    var endCount = 0;
+    mockWorkerFarm.end = function (worker) {
+      endCount++;
+      assert.isTrue(worker !== undefined);
+      if (endCount === 2) {
+        done();
       }
     };
-    this.mockChildProcess.expects('fork').twice().returns(mockWorker);
-
     var datagen = new DataGen();
-    datagen.generate({ genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
+    datagen.generate({ workerFarm: mockWorkerFarm, maxWorkers: 123, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   },
   'should default to empty string when any of the template file does not exist': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(false);
     this.mockFs.expects('existsSync').once().withExactArgs('segment').returns(false);
     this.mockFs.expects('existsSync').once().withExactArgs('footer').returns(false);  
-    this.stub(process, 'pid', 12345);
 
-    var mockWorker = {
-      send: function (opts) {
-        assert.equals(opts.templates.header, '');
-        assert.equals(opts.templates.segment, '');
-        assert.equals(opts.templates.footer, '');
+    var mockWorker = function (message, cb) {
+      assert.isTrue(message.workerId <= 2);
+      assert.equals(message.templates.header, '');
+      assert.equals(message.templates.segment, '');
+      assert.equals(message.templates.footer, '');
+      assert.equals(message.genId, 'somegenid');
+      assert.equals(message.numSegments, 3);
+      assert.equals(message.outFile, 'someoutfile');
+      cb();
+    };
+    var mockWorkerFarm = function (opts, child) {
+      assert.equals(opts, {});
+      return mockWorker;
+    };
+    var endCount = 0;
+    mockWorkerFarm.end = function (worker) {
+      endCount++;
+      assert.isTrue(worker !== undefined);
+      if (endCount === 2) {
         done();
       }
     };
-    this.mockChildProcess.expects('fork').once().returns(mockWorker);
-
     var datagen = new DataGen();
-    datagen.generate();
+    datagen.generate({ workerFarm: mockWorkerFarm, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   }
 });
