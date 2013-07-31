@@ -1,6 +1,7 @@
 ### 0.0.9-pre
 * Add max concurrent workers option to gen command
 * Concurrently running workers are limited to available CPUs by default
+* Fix max call stack size exceeded error when segment file does not exist or is empty
 
 ### 0.0.8
 * Fix hang after writing first segment
