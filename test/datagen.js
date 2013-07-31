@@ -83,7 +83,7 @@ buster.testCase('datagen - generate', {
       }
     };
     var datagen = new DataGen();
-    datagen.generate({ workerFarm: mockWorkerFarm, maxWorkers: 123, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
+    datagen.generate({ workerFarm: mockWorkerFarm, maxConcurrentWorkers: 123, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   },
   'should default to empty string when any of the template file does not exist': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(false);

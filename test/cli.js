@@ -40,13 +40,14 @@ buster.testCase('cli - gen', {
   },
   'should call DataGen generate': function () {
     this.stub(bag, 'command', function (base, actions) {
-      actions.commands.gen.action({ genId: 3, numSegments: 500, numWorkers: 8, outFile: 'someoutfile' });
+      actions.commands.gen.action({ genId: 3, numSegments: 500, numWorkers: 8, maxConcurrentWorkers: 3, outFile: 'someoutfile' });
     });
     this.mockProcess.expects('exit').once().withExactArgs(0);
     this.stub(DataGen.prototype, 'generate', function (opts, cb) {
       assert.equals(opts.genId, 3);
       assert.equals(opts.numSegments, 500);
       assert.equals(opts.numWorkers, 8);
+      assert.equals(opts.maxConcurrentWorkers, 3);
       assert.equals(opts.outFile, 'someoutfile');
       cb(null, []);
     });
@@ -61,6 +62,7 @@ buster.testCase('cli - gen', {
       assert.equals(opts.genId, undefined);
       assert.equals(opts.numSegments, undefined);
       assert.equals(opts.numWorkers, undefined);
+      assert.equals(opts.maxConcurrentWorkers, undefined);
       assert.equals(opts.outFile, undefined);
       cb(null, []);
     });

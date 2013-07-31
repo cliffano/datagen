@@ -1,5 +1,6 @@
 ### 0.0.9-pre
-*
+* Add max concurrent workers option to gen command
+* Concurrently running workers are limited to available CPUs by default
 
 ### 0.0.8
 * Fix hang after writing first segment

@@ -22,6 +22,10 @@ Generate 8 data files containing 1 million segments in each file, written to dat
 
     datagen gen -s 1000000 -w 8 -o data
 
+Limit the number of worker processes that can run concurrently to just 3:
+
+    datagen gen -s 1000000 -w 8 -m 3
+
 Templates
 ---------
 
