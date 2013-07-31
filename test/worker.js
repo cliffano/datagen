@@ -77,16 +77,20 @@ buster.testCase('worker - write', {
       '12345', 2, 'someoutfile');
   },
   'should apply params to template when write is called': function (done) {
-    var writeData = [];
+    var writeData = [],
+      writeCount = 0;
     var mockStream = {
       on: function (event, cb) {
-        if (event === 'drain') {
+        if (event === 'open' || event === 'drain') {
           cb();
         }
       },
       write: function (data) {
         writeData.push(data);
-        return true;
+        // first write is header as part of open event, return false but unused
+        // second write is first segment as part of open event, return false and not trigger subsequent write
+        // third write is second segment as part of drain event, return true to trigger next write which ends the stream
+        return (++writeCount === 2);
       },
       end: function (data) {
         assert.equals(data, 'footer template');
