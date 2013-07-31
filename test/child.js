@@ -7,8 +7,8 @@ buster.testCase('child - worker', {
     this.mockConsole = this.mock(console);
   },
   'should log start finish messages and trigger worker write': function (done) {
-    this.mockConsole.expects('log').once().withExactArgs('Starting worker 123');
-    this.mockConsole.expects('log').once().withExactArgs('Finishing worker 123');
+    this.mockConsole.expects('log').once().withExactArgs('Start worker 123');
+    this.mockConsole.expects('log').once().withExactArgs('Finish worker 123');
     this.stub(Worker.prototype, 'write', function (templates, genId, numSegments, outFile, cb) {
       assert.equals(templates.header, 'someheader');
       assert.equals(templates.segment, 'somesegment');
