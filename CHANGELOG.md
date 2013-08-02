@@ -1,4 +1,7 @@
-### 0.0.9-pre
+### 0.0.10-pre
+*
+
+### 0.0.9
 * Add max concurrent workers option to gen command
 * Concurrently running workers are limited to available CPUs by default
 * Fix max call stack size exceeded error when segment file does not exist or is empty
