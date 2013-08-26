@@ -18,6 +18,7 @@
   "bin": {
     "datagen": "./bin/datagen"
   },
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "http://github.com/cliffano/datagen.git"
