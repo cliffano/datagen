@@ -1,0 +1,11 @@
+command: datagen init
+exitcode: 0
+output: Creating example template files: header, segment, footer
+
+command: datagen gen
+exitcode: 0
+output: Start worker 1\nFinish worker 1
+
+command: datagen gen --gen-id foobar --num-segments 100 --num-workers 8 --max-concurrent-workers 10 --out-file data
+exitcode: 0
+output: ((Start|Finish) worker [1-8]\n){16}
