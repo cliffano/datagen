@@ -1,5 +1,5 @@
 {
-  "build": "clean lint complexity test coverage test-integration doc",
+  "build": "clean lint complexity test coverage doc",
   "lint": {
     "type": "jshint"
   },
