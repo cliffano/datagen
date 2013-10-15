@@ -107,6 +107,12 @@ Templates can contain the following parameters:
 <tr><td>{phone('(###) ####-####')}</td><td>Random phone number with a custom format. Each '#' will be replaced by a random number.</td></tr>
 </table>
 
+Screenshots
+-----------
+
+![Command init](../master/screenshots/init.jpg?raw=true)
+![Command gen with flags](../master/screenshots/gen-flags.jpg?raw=true)
+
 Colophon
 --------
 
