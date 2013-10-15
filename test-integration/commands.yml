@@ -1,0 +1,14 @@
+- description: Command init should create template files
+  command: datagen init
+  exitcode: 0
+  output: 'Creating example template files: header, segment, footer'
+
+- description: Command gen should default to 1 worker
+  command: datagen gen
+  exitcode: 0
+  output: Start worker 1\nFinish worker 1
+
+- description: Command gen should work with optional flags
+  command: datagen gen --gen-id foobar --num-segments 100 --num-workers 8 --max-concurrent-workers 10 --out-file data
+  exitcode: 0
+  output: ((Start|Finish) worker [1-8]\n){16}
