@@ -42,7 +42,8 @@
     "worker-farm": "~0.3.1"
   },
   "devDependencies": {
-    "buster": "~0.6.12"
+    "buster-node": "~0.7.0",
+    "referee": "~1.0.1"
   },
   "scripts": {},
   "engines": {

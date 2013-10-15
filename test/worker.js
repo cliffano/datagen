@@ -1,6 +1,8 @@
-var buster = require('buster'),
+var buster = require('buster-node'),
   fs = require('fs'),
-  Worker = require('../lib/worker');
+  referee = require('referee'),
+  Worker = require('../lib/worker'),
+  assert = referee.assert;
 
 buster.testCase('worker - write', {
   setUp: function () {

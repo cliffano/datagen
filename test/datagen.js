@@ -1,8 +1,10 @@
-var buster = require('buster'),
+var buster = require('buster-node'),
   DataGen = require('../lib/datagen'),
   fs = require('fs'),
   ncp = require('ncp'),
-  workerFarm = require('worker-farm');
+  referee = require('referee'),
+  workerFarm = require('worker-farm'),
+  assert = referee.assert;
 
 buster.testCase('datagen - init', {
   'should delegate to ncp ncp when initialising the project': function (done) {

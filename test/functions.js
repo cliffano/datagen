@@ -1,6 +1,8 @@
 var _ = require('lodash'),
-  buster = require('buster'),
-  functions = require('../lib/functions');
+  buster = require('buster-node'),
+  functions = require('../lib/functions'),
+  referee = require('referee'),
+  assert = referee.assert;
 
 buster.testCase('functions - integer', {
   'should evaluate integer function when it has no argument': function (done) {
