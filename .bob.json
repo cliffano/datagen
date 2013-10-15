@@ -1,5 +1,5 @@
 {
-  "build": "clean lint complexity test coverage doc",
+  "build": "clean lint complexity test coverage test-integration doc",
   "lint": {
     "type": "jshint"
   },
@@ -10,7 +10,7 @@
     "type": "buster"
   },
   "test-integration": {
-    "type": "buster"
+    "type": "cmdt"
   },
   "coverage": {
     "type": "buster-istanbul"
