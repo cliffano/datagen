@@ -1,5 +1,6 @@
 ### 0.0.10-pre
 * Change test lib to buster-node + referee
+* Set min node engine to >= v0.10.0
 
 ### 0.0.9
 * Add max concurrent workers option to gen command
