@@ -110,8 +110,8 @@ Templates can contain the following parameters:
 Screenshots
 -----------
 
-![Command init](../master/screenshots/init.jpg?raw=true)
-![Command gen with flags](../master/screenshots/gen-flags.jpg?raw=true)
+![Command init](https://raw.github.com/cliffano/datagen/master/screenshots/init.jpg)
+![Command gen with flags](https://raw.github.com/cliffano/datagen/master/screenshots/gen-flags.jpg)
 
 Colophon
 --------
