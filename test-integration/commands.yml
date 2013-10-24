@@ -1,3 +1,8 @@
+- description: Command help should display help information
+  command: ../../../../../bin/datagen --help
+  exitcode: 0
+  output: 'Usage: datagen'
+
 - description: Command init should create template files
   command: ../../../../../bin/datagen init
   exitcode: 0
