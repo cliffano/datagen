@@ -23,7 +23,6 @@ buster.testCase('datagen - init', {
 buster.testCase('datagen - generate', {
   setUp: function () {
     this.mockFs = this.mock(fs);
-    this.stub(process, 'pid', 12345);
   },
   'should send default message properties when none is specified': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
@@ -52,7 +51,7 @@ buster.testCase('datagen - generate', {
       done();
     };
     var datagen = new DataGen();
-    datagen.generate({ workerFarm: mockWorkerFarm });
+    datagen.generate({ workerFarm: mockWorkerFarm, genId: '12345' });
   },
   'should send specified message properties when they are provided': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
