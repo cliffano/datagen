@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/cliffano/datagen.png?branch=master)](http://travis-ci.org/cliffano/datagen)
 [![Dependencies Status](https://david-dm.org/cliffano/datagen.png)](http://david-dm.org/cliffano/datagen)
+[![Coverage Status](https://coveralls.io/repos/cliffano/datagen/badge.png?branch=master)](https://coveralls.io/r/cliffano/datagen?branch=master)
 [![Published Version](https://badge.fury.io/js/datagen.png)](http://badge.fury.io/js/datagen)
 <br/>
 [![npm Badge](https://nodei.co/npm/datagen.png)](http://npmjs.org/package/datagen)
