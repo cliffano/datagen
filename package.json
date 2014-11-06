@@ -37,13 +37,13 @@
     "Faker": "~0.7.2",
     "jazz": "~0.0.18",
     "lodash": "~2.4.1",
-    "ncp": "~0.6.0",
+    "ncp": "~1.0.1",
     "Nonsense": "~0.1.2",
     "worker-farm": "~1.0.1"
   },
   "devDependencies": {
     "buster-node": "~0.7.0",
-    "referee": "~1.0.1"
+    "referee": "~1.1.0"
   },
   "scripts": {},
   "engines": {
