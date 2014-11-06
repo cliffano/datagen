@@ -2,6 +2,7 @@ var buster = require('buster-node'),
   DataGen = require('../lib/datagen'),
   fs = require('fs'),
   ncp = require('ncp'),
+  proxyquire = require('proxyquire'),
   referee = require('referee'),
   workerFarm = require('worker-farm'),
   assert = referee.assert;
@@ -83,8 +84,9 @@ buster.testCase('datagen - generate', {
         done();
       }
     };
+    var DataGen = proxyquire('../lib/datagen', { 'worker-farm': mockWorkerFarm });
     var datagen = new DataGen();
-    datagen.generate({ workerFarm: mockWorkerFarm, maxConcurrentWorkers: 123, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
+    datagen.generate({ maxConcurrentWorkers: 123, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   },
   'should default to empty string when any of the template file does not exist': function (done) {
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(false);
@@ -113,7 +115,8 @@ buster.testCase('datagen - generate', {
         done();
       }
     };
+    var DataGen = proxyquire('../lib/datagen', { 'worker-farm': mockWorkerFarm });
     var datagen = new DataGen();
-    datagen.generate({ workerFarm: mockWorkerFarm, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
+    datagen.generate({ genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   }
 });
