@@ -5,6 +5,9 @@ var _ = require('lodash'),
   assert = referee.assert;
 
 buster.testCase('functions - integer', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate integer function when it has no argument': function (done) {
     functions.integer(function (data) {
       assert.isNumber(data);
@@ -32,6 +35,9 @@ buster.testCase('functions - integer', {
 });
 
 buster.testCase('functions - float', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate float function when it has no argument': function (done) {
     functions.float(function (data) {
       assert.isNumber(data);
@@ -59,6 +65,9 @@ buster.testCase('functions - float', {
 });
 
 buster.testCase('functions - date', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate date function with ISO format when it has no argument': function (done) {
     functions.date(function (data) {
       assert.isTrue(data.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/).length > 0);
@@ -90,6 +99,9 @@ buster.testCase('functions - date', {
 });
 
 buster.testCase('functions - select', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate select function when it has arguments': function (done) {
     functions.select('aaa', 'bbb', 'ccc', function (data) {
       var pos = ['aaa','bbb','ccc'].indexOf(data);
@@ -114,6 +126,9 @@ buster.testCase('functions - select', {
 });
 
 buster.testCase('functions - word', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate a single word when word function has no argument': function (done) {
     functions.word(function (data) {
       assert.isString(data);
@@ -135,7 +150,9 @@ buster.testCase('functions - word', {
 });
 
 buster.testCase('functions - firstName', {
-
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate first name function': function (done) {
     functions.first_name(function (data) {
       assert.isString(data);
@@ -146,6 +163,9 @@ buster.testCase('functions - firstName', {
 });
 
 buster.testCase('functions - lastName', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate last name function': function (done) {
     functions.last_name(function (data) {
       assert.isString(data);
@@ -156,6 +176,9 @@ buster.testCase('functions - lastName', {
 });
 
 buster.testCase('functions - email', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate email function': function (done) {
     functions.email(function (data) {
       assert.isString(data);
@@ -166,6 +189,9 @@ buster.testCase('functions - email', {
 });
 
 buster.testCase('functions - phone', {
+  setUp: function () {
+    this.mock({});
+  },
   'should evaluate phone function with default format when format is not specified': function (done) {
     functions.phone(function (data) {
       assert.isString(data);

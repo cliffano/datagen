@@ -8,6 +8,9 @@ var buster = require('buster-node'),
   assert = referee.assert;
 
 buster.testCase('datagen - init', {
+  setUp: function () {
+    this.mock({});
+  },
   'should delegate to ncp ncp when initialising the project': function (done) {
     this.stub(ncp, 'ncp', function (source, dest, cb) {
       assert.isTrue(source.match(/.+\/datagen\/examples$/).length === 1);
