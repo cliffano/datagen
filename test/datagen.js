@@ -26,13 +26,6 @@ buster.testCase('datagen - generate', {
     this.mockFs = this.mock(fs);
   },
   'should send default message properties when none is specified': function (done) {
-    this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
-    this.mockFs.expects('existsSync').once().withExactArgs('segment').returns(true);
-    this.mockFs.expects('existsSync').once().withExactArgs('footer').returns(true);
-    this.mockFs.expects('readFileSync').once().withExactArgs('header').returns('header template');
-    this.mockFs.expects('readFileSync').once().withExactArgs('segment').returns('segment template');
-    this.mockFs.expects('readFileSync').once().withExactArgs('footer').returns('footer template');
-
     var mockWorker = function (message, cb) {
       assert.equals(message.workerId, 1);
       assert.equals(message.templates.header, 'header template');
@@ -51,10 +44,9 @@ buster.testCase('datagen - generate', {
       assert.isTrue(worker !== undefined);
       done();
     };
-    var datagen = new DataGen();
-    datagen.generate({ workerFarm: mockWorkerFarm, genId: '12345' });
-  },
-  'should send specified message properties when they are provided': function (done) {
+
+    var DataGen = proxyquire('../lib/datagen', { 'worker-farm': mockWorkerFarm });
+
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
     this.mockFs.expects('existsSync').once().withExactArgs('segment').returns(true);
     this.mockFs.expects('existsSync').once().withExactArgs('footer').returns(true);
@@ -62,6 +54,10 @@ buster.testCase('datagen - generate', {
     this.mockFs.expects('readFileSync').once().withExactArgs('segment').returns('segment template');
     this.mockFs.expects('readFileSync').once().withExactArgs('footer').returns('footer template');
 
+    var datagen = new DataGen();
+    datagen.generate({ genId: '12345' });
+  },
+  'should send specified message properties when they are provided': function (done) {
     var mockWorker = function (message, cb) {
       assert.isTrue(message.workerId <= 2);
       assert.equals(message.templates.header, 'header template');
@@ -85,14 +81,18 @@ buster.testCase('datagen - generate', {
       }
     };
     var DataGen = proxyquire('../lib/datagen', { 'worker-farm': mockWorkerFarm });
+
+    this.mockFs.expects('existsSync').once().withExactArgs('header').returns(true);
+    this.mockFs.expects('existsSync').once().withExactArgs('segment').returns(true);
+    this.mockFs.expects('existsSync').once().withExactArgs('footer').returns(true);
+    this.mockFs.expects('readFileSync').once().withExactArgs('header').returns('header template');
+    this.mockFs.expects('readFileSync').once().withExactArgs('segment').returns('segment template');
+    this.mockFs.expects('readFileSync').once().withExactArgs('footer').returns('footer template');
+
     var datagen = new DataGen();
     datagen.generate({ maxConcurrentWorkers: 123, genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   },
   'should default to empty string when any of the template file does not exist': function (done) {
-    this.mockFs.expects('existsSync').once().withExactArgs('header').returns(false);
-    this.mockFs.expects('existsSync').once().withExactArgs('segment').returns(false);
-    this.mockFs.expects('existsSync').once().withExactArgs('footer').returns(false);  
-
     var mockWorker = function (message, cb) {
       assert.isTrue(message.workerId <= 2);
       assert.equals(message.templates.header, '');
@@ -116,6 +116,12 @@ buster.testCase('datagen - generate', {
       }
     };
     var DataGen = proxyquire('../lib/datagen', { 'worker-farm': mockWorkerFarm });
+
+    this.mockFs.expects('existsSync').once().withExactArgs('header').returns(false);
+    this.mockFs.expects('existsSync').once().withExactArgs('segment').returns(false);
+    this.mockFs.expects('existsSync').once().withExactArgs('footer').returns(false);  
+
+
     var datagen = new DataGen();
     datagen.generate({ genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   }
