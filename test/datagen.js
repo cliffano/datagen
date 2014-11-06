@@ -98,7 +98,7 @@ buster.testCase('datagen - generate', {
       assert.equals(message.templates.header, '');
       assert.equals(message.templates.segment, '');
       assert.equals(message.templates.footer, '');
-      assert.equals(message.genId, 'somegenid');
+      assert.defined(message.genId);
       assert.equals(message.numSegments, 3);
       assert.equals(message.outFile, 'someoutfile');
       cb();
@@ -115,6 +115,7 @@ buster.testCase('datagen - generate', {
         done();
       }
     };
+
     var DataGen = proxyquire('../lib/datagen', { 'worker-farm': mockWorkerFarm });
 
     this.mockFs.expects('existsSync').once().withExactArgs('header').returns(false);
@@ -123,6 +124,6 @@ buster.testCase('datagen - generate', {
 
 
     var datagen = new DataGen();
-    datagen.generate({ genId: 'somegenid', numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
+    datagen.generate({ numSegments: 3, numWorkers: 2, outFile: 'someoutfile' });
   }
 });
