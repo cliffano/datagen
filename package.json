@@ -32,14 +32,14 @@
     "test": "./test"
   },
   "dependencies": {
-    "bagofcli": "~0.2.0",
+    "bagofcli": "~0.2.1",
     "dateformat": "~1.0.8-1.2.3",
     "Faker": "~0.7.2",
     "jazz": "~0.0.18",
     "lodash": "~2.4.1",
     "ncp": "~1.0.1",
     "Nonsense": "~0.1.2",
-    "worker-farm": "~1.0.1"
+    "worker-farm": "~1.1.0"
   },
   "devDependencies": {
     "buster-node": "~0.7.0",
