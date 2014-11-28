@@ -117,5 +117,9 @@ Screenshots
 Colophon
 --------
 
+[Developer's Guide](http://cliffano.github.io/developers_guide.html#nodejs)
+
+Articles:
+
 * [DataGen Workers Optimisation](http://blog.cliffano.com/2013/08/03/datagen-workers-optimisation/)
 * [DataGen: Generate Large Test Data Files – Like A Boss](http://blog.cliffano.com/2012/07/08/datagen-generate-large-test-data-files-like-a-boss/)
