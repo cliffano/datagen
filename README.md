@@ -119,6 +119,14 @@ Colophon
 
 [Developer's Guide](http://cliffano.github.io/developers_guide.html#nodejs)
 
+Build reports:
+
+* [Code complexity report](http://cliffano.github.io/datagen/bob/complexity/plato/index.html)
+* [Unit tests report](http://cliffano.github.io/datagen/bob/test/buster.out)
+* [Test coverage report](http://cliffano.github.io/datagen/bob/coverage/buster-istanbul/lcov-report/lib/index.html)
+* [Integration tests report](http://cliffano.github.io/datagen/bob/test-integration/cmdt.out)
+* [API Documentation](http://cliffano.github.io/datagen/bob/doc/dox-foundation/index.html)
+
 Articles:
 
 * [DataGen Workers Optimisation](http://blog.cliffano.com/2013/08/03/datagen-workers-optimisation/)
