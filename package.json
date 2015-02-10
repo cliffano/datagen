@@ -36,10 +36,10 @@
     "dateformat": "~1.0.11",
     "Faker": "~0.7.2",
     "jazz": "~0.0.18",
-    "lodash": "~2.4.1",
+    "lodash": "~3.1.0",
     "ncp": "~1.0.1",
     "Nonsense": "~0.1.2",
-    "worker-farm": "~1.1.0"
+    "worker-farm": "~1.2.0"
   },
   "devDependencies": {
     "buster-node": "~0.7.0",
