@@ -1,7 +1,7 @@
 <img align="right" src="https://raw.github.com/cliffano/datagen/master/avatar.jpg" alt="Avatar"/>
 
-[![Build Status](https://secure.travis-ci.org/cliffano/datagen.png?branch=master)](http://travis-ci.org/cliffano/datagen)
-[![Dependencies Status](https://david-dm.org/cliffano/datagen.png)](http://david-dm.org/cliffano/datagen)
+[![Build Status](https://img.shields.io/travis/cliffano/datagen.svg)](http://travis-ci.org/cliffano/datagen)
+[![Dependencies Status](https://img.shields.io/david/cliffano/datagen.svg)](http://david-dm.org/cliffano/datagen)
 [![Coverage Status](https://coveralls.io/repos/cliffano/datagen/badge.png?branch=master)](https://coveralls.io/r/cliffano/datagen?branch=master)
 [![Published Version](https://badge.fury.io/js/datagen.png)](http://badge.fury.io/js/datagen)
 <br/>
