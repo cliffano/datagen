@@ -2,8 +2,8 @@
 
 [![Build Status](https://img.shields.io/travis/cliffano/datagen.svg)](http://travis-ci.org/cliffano/datagen)
 [![Dependencies Status](https://img.shields.io/david/cliffano/datagen.svg)](http://david-dm.org/cliffano/datagen)
-[![Coverage Status](https://coveralls.io/repos/cliffano/datagen/badge.png?branch=master)](https://coveralls.io/r/cliffano/datagen?branch=master)
-[![Published Version](https://badge.fury.io/js/datagen.png)](http://badge.fury.io/js/datagen)
+[![Coverage Status](https://img.shields.io/coveralls/cliffano/datagen.svg)](https://coveralls.io/r/cliffano/datagen?branch=master)
+[![Published Version](https://img.shields.io/npm/v/datagen.svg)](http://www.npmjs.com/package/datagen)
 <br/>
 [![npm Badge](https://nodei.co/npm/datagen.png)](http://npmjs.org/package/datagen)
 
