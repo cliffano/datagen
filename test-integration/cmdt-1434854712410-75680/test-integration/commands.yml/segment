@@ -1,0 +1,3 @@
+<segment>
+  <id>{gen_id}-{worker_id}-{segment_id}</id>
+</segment>

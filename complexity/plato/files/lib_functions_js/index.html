@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/functions.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/functions.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">69.82</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">175</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">34.08</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.84</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">var dateFormat = require(&#039;dateformat&#039;),
+  faker = require(&#039;Faker&#039;),
+  Nonsense = require(&#039;Nonsense&#039;),
+  ns = new Nonsense();
+
+/**
+ * Template function to generate a random integer.
+ *
+ * @param {Number} min: minimum integer
+ * @param {Number} max: maximum integer
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function integer(min, max, cb) {
+  var value;
+  // template: {integer(min, max)}
+  if (min &amp;&amp; max &amp;&amp; cb) {
+    value = ns.integerInRange(min, max);
+  // template: {integer()}
+  } else {
+    cb = min;
+    value = ns.integer();
+  }
+  cb(value);
+}
+
+/**
+ * Template function to generate a random float.
+ *
+ * @param {Number} min: minimum float
+ * @param {Number} max: maximum float
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function _float(min, max, cb) {
+  var value;
+  // template: {float(min, max)}
+  if (min &amp;&amp; max &amp;&amp; cb) {
+    value = ns.realInRange(min, max);
+  // template: {float()}
+  } else {
+    cb = min;
+    value = ns.real();
+  }
+  cb(value);
+}
+
+/**
+ * Template function to generate a random date.
+ *
+ * @param {String} format: date format (felixge/node-dateformat)
+ * @param {Number} min: minimum year
+ * @param {Number} max: maximum year
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function date(format, min, max, cb) {
+
+  function _timestamp(year) {
+    return new Date(year, 0, 1).getTime();
+  }
+
+  var value;
+  // template: {date(format, min, max)}
+  if (format &amp;&amp; min &amp;&amp; max &amp;&amp; cb) {
+    value = ns.timestamp(_timestamp(min), _timestamp(max));
+  // template: {date(min, max)}
+  } else if (format &amp;&amp; min &amp;&amp; max) {
+    cb = max;
+    value = ns.timestamp(_timestamp(format), _timestamp(min));
+    format = &#039;isoDateTime&#039;;
+  // template: {date(format)}
+  } else if (format &amp;&amp; min) {
+    cb = min;
+    value = ns.timestamp(_timestamp(1970), _timestamp(2020));
+  // template: {date()}
+  } else {
+    cb = format;
+    format = &#039;isoDateTime&#039;;
+    value = ns.timestamp(_timestamp(1970), _timestamp(2020));
+  }
+  cb(dateFormat(new Date(value), format));
+}
+
+/**
+ * Template function to select an item out of the arguments.
+ * Last argument must be the callback.
+ *
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function select() {
+  // template: {select(arg1, arg2, ..., argN)}
+  var args = Array.prototype.slice.call(arguments);
+  args[args.length - 1](ns.pick(args.slice(0, args.length - 1)));
+}
+
+/**
+ * Template function to generate random word(s) from Lorem Ipsum.
+ *
+ * @param {Number} num: how many random words to generate
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function word(num, cb) {
+  var value;
+  // template: {word(num)}
+  if (num &amp;&amp; cb) {
+    value = ns.words(num);
+  // template: {word()}
+  } else {
+    cb = num;
+    value = ns.word();
+  }
+  cb(value);
+}
+
+/**
+ * Template function to generate a random first name.
+ *
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function firstName(cb) {
+  cb(ns.firstName());
+}
+
+/**
+ * Template function to generate a random last name.
+ *
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function lastName(cb) {
+  cb(ns.lastName());
+}
+
+/**
+ * Template function to generate a random email.
+ *
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function email(cb) {
+  cb(faker.Internet.email());
+}
+
+/**
+ * Template function to generate a random phone.
+ *
+ * @param {String} format: phone number format, e.g. #### #### will generate 8 digit numbers separated with a space
+ * @param {Function} cb: jazz cb(data) callback
+ */
+function phone(format, cb) {
+  // template: {phone(format)}
+  if (format &amp;&amp; cb) {
+  // template: {phone()}
+  } else {
+    cb = format;
+    format = &#039;#### ####&#039;;
+  }
+  // replace with faker.PhoneNumber.phoneNumberFormat(format) if Faker.js &gt; 0.1.3 has been published
+  function _phone() {
+    var value = &#039;&#039;;
+    for (var i = 0, ln = format.length; i &lt; ln; i += 1) {
+      value += (format.charAt(i) === &#039;#&#039;) ? Math.floor(Math.random() * 9) : format.charAt(i);
+    }
+    return value;
+  }
+  cb(_phone());
+}
+
+module.exports = {
+  integer: integer,
+  float: _float,
+  date: date,
+  select: select,
+  word: word,
+  first_name: firstName,
+  last_name: lastName,
+  email: email,
+  phone: phone
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

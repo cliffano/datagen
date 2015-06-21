@@ -1,0 +1,5 @@
+[ 'lib/child.js',
+  'lib/cli.js',
+  'lib/datagen.js',
+  'lib/functions.js',
+  'lib/worker.js' ]
