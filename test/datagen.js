@@ -13,7 +13,7 @@ buster.testCase('datagen - init', {
   },
   'should delegate to ncp ncp when initialising the project': function (done) {
     this.stub(ncp, 'ncp', function (source, dest, cb) {
-      assert.isTrue(source.match(/.+\/datagen\/examples$/).length === 1);
+      assert.isTrue(source.match(/.+\/examples$/).length === 1);
       assert.equals(dest, '.');
       cb();
     });
