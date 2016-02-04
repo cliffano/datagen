@@ -1,8 +1,5 @@
 ### 1.0.0
-*
-
-### 0.0.11-pre
-*
+* Major version upgrade only
 
 ### 0.0.10
 * Change test lib to buster-node + referee
