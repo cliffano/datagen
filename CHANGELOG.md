@@ -1,5 +1,5 @@
 ### 1.0.1
-*
+* Set min node engine to >= 4.0.0
 
 ### 1.0.0
 * Major version upgrade only
