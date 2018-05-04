@@ -84,18 +84,18 @@ Curly brackets in templates (e.g. JSON format) need to be escaped with double br
 
     {{ "id": "{gen_id}-{worker_id}-{segment_id}", "name": "{first_name()} {last_name()}", "dob": "{date('dd-mm-yyyy')}" }}
 
-CSV Example:
+As for CSV, check out the example below.
 
-Header
+Example header:
 
-(Column1,Column2,Column3,Column4,Column5)
-FirstName,LastName,Age,EmployeeNumber,DateJoint
+    (Column1,Column2,Column3,Column4,Column5)
+    FirstName,LastName,Age,EmployeeNumber,DateJoint
 
-Segment
-john,Smith,{integer(18, 65)},{integer()},{date('yyyy-mm-dd', 2000, 2018)}
+Example segment:
 
-Footer
-(Blank - as not required for CSV unless you ar using an ETL which my require a data record count)
+    john,Smith,{integer(18, 65)},{integer()},{date('yyyy-mm-dd', 2000, 2018)}
+
+Footer is not required for CSV unless you ar using an ETL which my require a data record count.
 
 Templates can contain the following parameters:
 
